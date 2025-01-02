@@ -1,0 +1,89 @@
+basePath: /api/v1
+definitions:
+  handlers.Message:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      message_id:
+        type: string
+      sent:
+        type: boolean
+      sent_at:
+        type: string
+      to:
+        type: string
+    type: object
+  handlers.Response:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: An automatic message sending system that processes messages every 2
+    minutes.
+  title: Messaging System API
+  version: "1.0"
+paths:
+  /messages/sent:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all messages that have been sent
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.Message'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.Response'
+      summary: Get sent messages
+      tags:
+      - Messages
+  /messages/start:
+    post:
+      consumes:
+      - application/json
+      description: Start the automatic message sending process that sends messages
+        every 2 minutes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Response'
+      summary: Start message processing
+      tags:
+      - Messages
+  /messages/stop:
+    post:
+      consumes:
+      - application/json
+      description: Stop the automatic message sending process
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Response'
+      summary: Stop message processing
+      tags:
+      - Messages
+schemes:
+- http
+swagger: "2.0"
